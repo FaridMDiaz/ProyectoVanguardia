@@ -1,0 +1,36 @@
+{
+  "name": "proyecto",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "start": "vite"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FaridMDiaz/ProyectoVanguardia.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/FaridMDiaz/ProyectoVanguardia/issues"
+  },
+  "homepage": "https://github.com/FaridMDiaz/ProyectoVanguardia#readme",
+  "dependencies": {
+    "@popperjs/core": "^2.11.8",
+    "axios": "^1.13.6",
+    "bootstrap": "^5.3.8",
+    "vue": "^3.5.29",
+    "vue-router": "^5.0.3"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^6.0.4",
+    "vite": "^7.3.1"
+  }
+}
