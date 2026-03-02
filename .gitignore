@@ -1,0 +1,6 @@
+#Olvidar los node modules
+node_modules/
+#Olvidar los archivos de construcción
+dist/
+build/
+#Olvidar los archivos de configuración de entorno
