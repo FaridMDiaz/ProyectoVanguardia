@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
-import ProductosView from '../views/ProductosView.vue'
+import ProductosView from '../views/ProductView.vue'
 import ProductoFormView from '../views/ProductoFormView.vue'
 
 const router = createRouter({

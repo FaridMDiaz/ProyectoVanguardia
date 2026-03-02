@@ -37,7 +37,5 @@ export default {
   name: 'Navbar'
 }
 </script>
-
 <style>
-@import 'bootstrap-icons/font/bootstrap-icons.css';
 </style>
