@@ -1,15 +1,12 @@
 <template>
   <div class="flip-card">
     <div class="flip-card-inner">
-      <!-- Frente de la tarjeta -->
       <div class="flip-card-front" :style="{ background: gradientColor }">
         <span class="category-badge">{{ product.categoria }}</span>
         <h3>{{ product.nombre }}</h3>
         <p class="text-truncate">{{ product.descripcion || 'Sin descripción' }}</p>
         <small>Pasa el cursor para ver detalles</small>
       </div>
-      
-      <!-- Reverso de la tarjeta -->
       <div class="flip-card-back">
         <div>
           <h4>{{ product.nombre }}</h4>
@@ -62,7 +59,6 @@ export default {
   emits: ['delete', 'edit'],
   setup(props, { emit }) {
     const gradientColor = computed(() => {
-      // Generar gradiente basado en categoría
       const gradients = {
         'Electrónica': 'linear-gradient(135deg, #3498db 0%, #2980b9 100%)',
         'Ropa': 'linear-gradient(135deg, #e74c3c 0%, #c0392b 100%)',
