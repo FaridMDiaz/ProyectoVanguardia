@@ -7,10 +7,10 @@
           Calidad y economía en un solo lugar
         </p>
         <div class="fade-in-up" style="animation-delay: 0.4s">
-          <routerLink to="/productos" class="btn btn-custom-primary me-3">
-            Ver catálogo
+          <routerLink to="/admin/productos" class="btn btn-custom-primary me-3">
+            Ver catálogo admin
           </routerLink>
-          <routerLink to="/productos/nuevo" class="btn btn-custom-outline">
+          <routerLink to="/admin/productos/nuevo" class="btn btn-custom-outline">
             Publicar producto
           </routerLink>
         </div>
@@ -49,7 +49,7 @@
               Publica tus productos de forma gratuita y llega a más clientes
             </p>
             <div>
-              <routerLink to="/productos/nuevo" class="btn btn-custom-primary">
+              <routerLink to="/admin/productos/nuevo" class="btn btn-custom-primary">
                 Comenzar ahora
               </routerLink>
             </div>
@@ -57,6 +57,12 @@
         </div>
       </div>
     </div>
+    <footer class="address-footer py-4 mt-4 bg-light text-center">
+      <div class="container">
+        <h5 class="mb-2">Nuestra dirección</h5>
+        <p class="mb-0 text-muted">Av. Siempre Viva 742, Buenos Aires, Argentina</p>
+      </div>
+    </footer>
   </div>
 </template>
 

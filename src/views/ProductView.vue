@@ -4,7 +4,7 @@
       <div class="col-12">
         <div class="d-flex justify-content-between align-items-center">
           <h1 class="text-white">Nuestros Productos</h1>
-          <routerLink to="/productos/nuevo" class="btn btn-custom-primary">
+          <routerLink to="/admin/productos/nuevo" class="btn btn-custom-primary">
             <i class="bi bi-plus-circle"></i> Nuevo Producto
           </routerLink>
         </div>
@@ -42,7 +42,7 @@
         <h3>No hay productos disponibles</h3>
         <p class="text-muted">Comienza agregando tu primer producto</p>
         <div>
-          <routerLink to="/productos/nuevo" class="btn btn-custom-primary">
+          <routerLink to="/admin/productos/nuevo" class="btn btn-custom-primary">
             <i class="bi bi-plus-circle"></i> Agregar Producto
           </routerLink>
         </div>
@@ -56,6 +56,7 @@
       >
         <ProductCard 
           :product="product"
+          :admin="true"
           @delete="handleDelete"
           @edit="handleEdit"
         />
@@ -123,7 +124,7 @@ export default {
     }
 
     const handleEdit = (productId) => {
-      router.push(`/productos/${productId}`)
+      router.push(`/admin/productos/${productId}`)
     }
 
     onMounted(() => {

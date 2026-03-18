@@ -1,30 +1,43 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import ClienteView from '../views/ClienteView.vue'
 import HomeView from '../views/HomeView.vue'
 import ProductosView from '../views/ProductView.vue'
 import ProductoFormView from '../views/ProductoFormView.vue'
+import CategoriaView from '../views/CategoriaView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
       path: '/',
-      name: 'home',
+      name: 'public-client',
+      component: ClienteView
+    },
+    {
+      path: '/admin',
+      name: 'admin-home',
       component: HomeView
     },
     {
-      path: '/productos',
-      name: 'productos',
+      path: '/admin/productos',
+      name: 'admin-productos',
       component: ProductosView
     },
     {
-      path: '/productos/nuevo',
-      name: 'nuevo-producto',
+      path: '/admin/productos/nuevo',
+      name: 'admin-nuevo-producto',
       component: ProductoFormView
     },
     {
-      path: '/productos/:id',
-      name: 'editar-producto',
+      path: '/admin/productos/:id',
+      name: 'admin-editar-producto',
       component: ProductoFormView
+    },
+    {
+      path: '/categoria/:slug',
+      name: 'categoria',
+      component: CategoriaView,
+      props: true
     }
   ]
 })

@@ -3,6 +3,15 @@
     <div class="flip-card-inner">
       <div class="flip-card-front" :style="{ background: gradientColor }">
         <span class="category-badge">{{ product.categoria }}</span>
+        <div class="product-thumb-wrapper mb-2">
+          <img
+            v-if="product.imagen"
+            :src="`/private/${product.imagen}`"
+            :alt="product.nombre"
+            class="product-thumb"
+          />
+          <div v-else class="product-thumb fallback">Imagen no disponible</div>
+        </div>
         <h3>{{ product.nombre }}</h3>
         <p class="text-truncate">{{ product.descripcion || 'Sin descripción' }}</p>
         <small>Pasa el cursor para ver detalles</small>
@@ -27,11 +36,12 @@
         </div>
         
         <div class="d-flex justify-content-between align-items-center mt-3">
-          <routerLink :to="`/productos/${product.id}`" class="btn-view">
+          <routerLink v-if="admin" :to="`/admin/productos/${product.id}`" class="btn-view">
             <i class="bi bi-eye"></i> Ver detalles
           </routerLink>
-          
-          <div>
+          <div v-else class="text-white">Solo lectura cliente</div>
+
+          <div v-if="admin">
             <button @click="editProduct" class="btn btn-sm btn-outline-primary me-2">
               <i class="bi bi-pencil"></i>
             </button>
@@ -54,6 +64,10 @@ export default {
     product: {
       type: Object,
       required: true
+    },
+    admin: {
+      type: Boolean,
+      default: true
     }
   },
   emits: ['delete', 'edit'],

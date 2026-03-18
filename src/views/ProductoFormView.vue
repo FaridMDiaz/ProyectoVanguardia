@@ -71,6 +71,31 @@
                   </option>
                 </select>
               </div>
+              <div class="mb-4">
+                <label for="imagen" class="form-label">Imagen *</label>
+                <select class="form-select" id="imagen" v-model="form.imagen" required>
+                  <option value="">Selecciona una imagen desde /private</option>
+                  <option v-for="imagen in availableImages" :key="imagen" :value="imagen">
+                    {{ imagen }}
+                  </option>
+                </select>
+                <div v-if="form.imagen" class="mt-2">
+                  <small class="text-muted">Vista previa:</small>
+                  <div class="border rounded p-2 mt-1" style="background: #f8f9fa; width: 100%; max-width: 300px;">
+                    <img :src="`/private/${form.imagen}`" :alt="form.imagen" style="max-width: 100%; height: auto;" />
+                  </div>
+                </div>
+              </div>
+              <div class="mb-3">
+                <label for="direccion" class="form-label">Dirección</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="direccion"
+                  v-model="form.direccion"
+                  placeholder="Ej. Calle Falsa 123, Buenos Aires"
+                />
+              </div>
               <div class="d-flex gap-3">
                 <button type="button" @click="cancel" class="btn btn-outline-secondary flex-grow-1">
                   Cancelar
@@ -105,8 +130,29 @@ export default {
     const isEditing = computed(() => productId.value && productId.value !== 'nuevo')
 
     const categories = [
-      'Electrónica', 'Ropa', 'Hogar', 'Muebles', 
-      'Camas', 'Libros', 'Juguetes', 'Otros'
+      'Area bebés',
+      'Cuadros',
+      'Espejos',
+      'Mesas',
+      'Comedores',
+      'Adornos',
+      'Set de cuartos',
+      'Libros para adulto',
+      'libros escolares',
+      'Juegos de sala',
+      'Sofás'
+    ]
+
+    const availableImages = [
+      'Gabetero_Doble.jpeg',
+      'Sillonpeq1.jpeg',
+      'SofaL.jpeg',
+      'juego_Sala1.jpeg',
+      'juego_Sala2.jpeg',
+      'juego_Sala3.jpeg',
+      'juego_Sala4.jpeg',
+      'juego_Sala5.jpeg',
+      'sillonpeq2.jpeg'
     ]
 
     const form = ref({
@@ -114,7 +160,9 @@ export default {
       descripcion: '',
       precio: '',
       stock: '',
-      categoria: ''
+      categoria: '',
+      imagen: '',
+      direccion: ''
     })
 
     const saving = ref(false)
@@ -126,11 +174,13 @@ export default {
       try {
         const response = await axios.get(`/api/productos/${productId.value}`)
         form.value = {
-          nombre: response.data.nombre,
+          nombre: response.data.nombre || '',
           descripcion: response.data.descripcion || '',
-          precio: response.data.precio,
-          stock: response.data.stock,
-          categoria: response.data.categoria
+          precio: response.data.precio || '',
+          stock: response.data.stock || '',
+          categoria: response.data.categoria || '',
+          imagen: response.data.imagen || '',
+          direccion: response.data.direccion || ''
         }
       } catch (err) {
         error.value = 'Error al cargar el producto'
@@ -149,7 +199,7 @@ export default {
           await axios.post('/api/productos', form.value)
           alert('Producto creado exitosamente')
         }
-        router.push('/productos')
+        router.push('/admin/productos')
       } catch (err) {
         error.value = `Error al ${isEditing.value ? 'actualizar' : 'crear'} el producto`
       } finally {
@@ -158,7 +208,7 @@ export default {
     }
 
     const cancel = () => {
-      router.push('/productos')
+      router.push('/admin/productos')
     }
 
     onMounted(() => {
@@ -171,6 +221,7 @@ export default {
       saving,
       error,
       categories,
+      availableImages,
       handleSubmit,
       cancel
     }

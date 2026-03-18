@@ -11,19 +11,33 @@
       
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ms-auto">
+          <li class="nav-item" v-if="!$route.path.startsWith('/admin')">
+            <a class="nav-link dropdown-toggle" href="#" id="categoriaDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="bi bi-grid"></i> Categorías
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="categoriaDropdown">
+              <li><router-link class="dropdown-item" to="/">Todas</router-link></li>
+              <li><router-link class="dropdown-item" to="/categoria/area-bebes">Area bebés</router-link></li>
+              <li><router-link class="dropdown-item" to="/categoria/cuadros">Cuadros</router-link></li>
+              <li><router-link class="dropdown-item" to="/categoria/espejos">Espejos</router-link></li>
+              <li><router-link class="dropdown-item" to="/categoria/mesas">Mesas</router-link></li>
+              <li><router-link class="dropdown-item" to="/categoria/comedores">Comedores</router-link></li>
+              <li><router-link class="dropdown-item" to="/categoria/adornos">Adornos</router-link></li>
+              <li><router-link class="dropdown-item" to="/categoria/set-de-cuartos">Set de cuartos</router-link></li>
+              <li><router-link class="dropdown-item" to="/categoria/libros-para-adulto">Libros para adulto</router-link></li>
+              <li><router-link class="dropdown-item" to="/categoria/libros-escolares">libros escolares</router-link></li>
+              <li><router-link class="dropdown-item" to="/categoria/juegos-de-sala">Juegos de sala</router-link></li>
+              <li><router-link class="dropdown-item" to="/categoria/sofas">Sofás</router-link></li>
+            </ul>
+          </li>
           <li class="nav-item">
+            <router-link class="nav-link" to="/admin" :class="{ active: $route.path === '/admin' }">
+              <i class="bi bi-lock"></i> Panel privado
+            </router-link>
+          </li>
+          <li class="nav-item" v-if="$route.path.startsWith('/admin')">
             <router-link class="nav-link" to="/" :class="{ active: $route.path === '/' }">
-              <i class="bi bi-house-door"></i> Inicio
-            </router-link>
-          </li>
-          <li class="nav-item">
-            <router-link class="nav-link" to="/productos" :class="{ active: $route.path === '/productos' }">
-              <i class="bi bi-grid"></i> Productos
-            </router-link>
-          </li>
-          <li class="nav-item">
-            <router-link class="nav-link" to="/productos/nuevo" :class="{ active: $route.path === '/productos/nuevo' }">
-              <i class="bi bi-plus-circle"></i> Nuevo Producto
+              <i class="bi bi-shop"></i> Volver al público
             </router-link>
           </li>
         </ul>
