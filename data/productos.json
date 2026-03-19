@@ -58,5 +58,25 @@
     "categoria": "Comedores",
     "imagen": "juego_Sala1.jpeg",
     "direccion": "qwertyuiopṕoiuytr"
+  },
+  {
+    "id": 7,
+    "nombre": "123",
+    "descripcion": "1234",
+    "precio": 123,
+    "stock": 123,
+    "categoria": "Area bebés",
+    "imagen": "juego_Sala1.jpeg",
+    "direccion": "1234567890"
+  },
+  {
+    "id": 8,
+    "nombre": "1234|",
+    "descripcion": "nuhbuyiuoim",
+    "precio": 123,
+    "stock": 1234,
+    "categoria": "Area bebés",
+    "imagen": "juego_Sala1.jpeg",
+    "direccion": "1234567890'/4555"
   }
 ]

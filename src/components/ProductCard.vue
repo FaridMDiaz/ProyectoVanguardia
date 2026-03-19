@@ -6,7 +6,7 @@
         <div class="product-thumb-wrapper mb-2">
           <img
             v-if="product.imagen"
-            :src="`/private/${product.imagen}`"
+            :src="`http://localhost:3000/private/${product.imagen}`"
             :alt="product.nombre"
             class="product-thumb"
           />
@@ -16,32 +16,24 @@
         <p class="text-truncate">{{ product.descripcion || 'Sin descripción' }}</p>
         <small>Pasa el cursor para ver detalles</small>
       </div>
-
       <div class="flip-card-back">
         <div>
           <h4>{{ product.nombre }}</h4>
           <p class="text-muted">{{ product.descripcion || 'Sin descripción disponible' }}</p>
-
-          <div class="price">${{ formatPrice(product.precio) }}</div>
-
+          <div class="price">Q{{ formatPrice(product.precio) }}</div>
           <div :class="['stock', stockClass]">
             {{ product.stock }} unidades disponibles
           </div>
-
-          <div class="mt-3">
+          <div v-if="product.direccion" class="mt-2">
             <small class="text-muted">
-              <i class="bi bi-calendar"></i>
-              {{ formatDate(product.fecha_creacion) }}
+              <i class="bi bi-geo-alt"></i> {{ product.direccion }}
             </small>
           </div>
         </div>
-
         <div class="d-flex justify-content-between align-items-center mt-3">
           <routerLink v-if="admin" :to="`/admin/productos/${product.id}`" class="btn-view">
             <i class="bi bi-eye"></i> Ver detalles
           </routerLink>
-          <div v-else class="text-white">Solo lectura cliente</div>
-
           <div v-if="admin" class="d-flex gap-2">
             <button @click="editProduct" class="btn btn-sm btn-outline-primary">
               <i class="bi bi-pencil"></i> Editar
@@ -55,7 +47,6 @@
 
 <script>
 import { computed } from 'vue'
-
 export default {
   name: 'ProductCard',
   props: {
@@ -77,6 +68,9 @@ export default {
         'Hogar': 'linear-gradient(135deg, #27ae60 0%, #229954 100%)',
         'Muebles': 'linear-gradient(135deg, #e67e22 0%, #d35400 100%)',
         'Libros': 'linear-gradient(135deg, #9b59b6 0%, #8e44ad 100%)',
+        'Sofás': 'linear-gradient(135deg, #e67e22 0%, #d35400 100%)',
+        'Comedores': 'linear-gradient(135deg, #16a085 0%, #1abc9c 100%)',
+        'Area bebés': 'linear-gradient(135deg, #f39c12 0%, #e67e22 100%)',
         'default': 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'
       }
       return gradients[props.product.categoria] || gradients.default
@@ -89,15 +83,7 @@ export default {
     })
 
     const formatPrice = (price) => {
-      return price.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')
-    }
-
-    const formatDate = (date) => {
-      return new Date(date).toLocaleDateString('es-ES', {
-        year: 'numeric',
-        month: 'short',
-        day: 'numeric'
-      })
+      return Number(price).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')
     }
 
     const editProduct = () => {
@@ -108,7 +94,6 @@ export default {
       gradientColor,
       stockClass,
       formatPrice,
-      formatDate,
       editProduct
     }
   }

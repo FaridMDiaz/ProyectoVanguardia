@@ -1,19 +1,21 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import SelectView from '../views/SelectView.vue'
 import ClienteView from '../views/ClienteView.vue'
 import HomeView from '../views/HomeView.vue'
 import ProductosView from '../views/ProductView.vue'
 import ProductoFormView from '../views/ProductoFormView.vue'
 import CategoriaView from '../views/CategoriaView.vue'
-import { createRouter, createWebHistory } from 'vue-router'
-import SelectView from '../views/SelectView.vue'
-import AdminView from '../views/AdminView.vue'   // tu vista admin actual
-import ClientView from '../views/ClientView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
       path: '/',
+      name: 'select',
+      component: SelectView
+    },
+    {
+      path: '/cliente',
       name: 'public-client',
       component: ClienteView
     },
@@ -46,13 +48,4 @@ const router = createRouter({
   ]
 })
 
-const routes = [
-  { path: '/', component: SelectView },
-  { path: '/admin', component: AdminView },
-  { path: '/cliente', component: ClientView },
-]
-
-export default createRouter({
-  history: createWebHistory(),
-  routes,
-})
+export default router

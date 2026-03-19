@@ -47,7 +47,6 @@
                     />
                   </div>
                 </div>
-
                 <div class="col-md-6 mb-3">
                   <label for="stock" class="form-label">Stock *</label>
                   <input
@@ -82,7 +81,7 @@
                 <div v-if="form.imagen" class="mt-2">
                   <small class="text-muted">Vista previa:</small>
                   <div class="border rounded p-2 mt-1" style="background: #f8f9fa; width: 100%; max-width: 300px;">
-                    <img :src="`/private/${form.imagen}`" :alt="form.imagen" style="max-width: 100%; height: auto;" />
+                    <img :src="`http://localhost:3000/private/${form.imagen}`" :alt="form.imagen" style="max-width: 100%; height: auto;" />
                   </div>
                 </div>
               </div>
@@ -123,6 +122,8 @@
 import { ref, computed, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import axios from 'axios'
+
+axios.defaults.baseURL = 'http://localhost:3000'
 
 export default {
   name: 'ProductoFormView',
@@ -173,9 +174,8 @@ export default {
 
     const fetchProduct = async () => {
       if (!isEditing.value) return
-      
       try {
-        const response = await axios.get(`/api/productos/${productId.value}`)
+        const response = await axios.get(`/productos/${productId.value}`)
         form.value = {
           nombre: response.data.nombre || '',
           descripcion: response.data.descripcion || '',
@@ -193,13 +193,12 @@ export default {
     const handleSubmit = async () => {
       saving.value = true
       error.value = null
-
       try {
         if (isEditing.value) {
-          await axios.put(`/api/productos/${productId.value}`, form.value)
+          await axios.put(`/productos/${productId.value}`, form.value)
           alert('Producto actualizado exitosamente')
         } else {
-          await axios.post('/api/productos', form.value)
+          await axios.post('/productos', form.value)
           alert('Producto creado exitosamente')
         }
         router.push('/admin/productos')
@@ -213,7 +212,7 @@ export default {
     const deleteProduct = async () => {
       if (!confirm('¿Seguro que quieres eliminar este producto? Esta acción no se puede deshacer.')) return
       try {
-        await axios.delete(`/api/productos/${productId.value}`)
+        await axios.delete(`/productos/${productId.value}`)
         alert('Producto eliminado correctamente')
         router.push('/admin/productos')
       } catch (err) {

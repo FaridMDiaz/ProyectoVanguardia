@@ -6,22 +6,33 @@
       @filtrar="filtrar"
     />
 
-    <div class="container py-4">
-      <div class="row g-3">
+    <div class="container mt-5 pt-5">
+
+      <div v-if="loading" class="text-center py-5">
+        <div class="spinner-custom mx-auto mb-3"></div>
+        <p class="text-white">Cargando productos...</p>
+      </div>
+
+      <div v-else-if="itemsFiltrados.length === 0" class="text-center py-5">
+        <div class="card bg-white p-5">
+          <i class="bi bi-emoji-frown display-1 text-muted mb-3"></i>
+          <h3>No hay productos en esta categoría</h3>
+        </div>
+      </div>
+
+      <div v-else class="row">
         <div
           v-for="item in itemsFiltrados"
           :key="item.id"
-          class="col-md-4"
+          class="col-lg-3 col-md-4 col-sm-6"
         >
-          <div class="card h-100 shadow-sm">
-            <div class="card-body">
-              <h5 class="card-title">{{ item.nombre }}</h5>
-              <p class="card-text text-muted">{{ item.categoria }}</p>
-              <p class="card-text">{{ item.descripcion }}</p>
-            </div>
-          </div>
+          <ProductCard
+            :product="item"
+            :admin="false"
+          />
         </div>
       </div>
+
     </div>
   </div>
 </template>
@@ -30,14 +41,21 @@
 import { ref, computed, onMounted } from 'vue'
 import axios from 'axios'
 import ClientNavbar from '../components/ClientNavbar.vue'
+import ProductCard from '../components/ProductCard.vue'
 
 const items = ref([])
 const categoriaActiva = ref(null)
+const loading = ref(true)
 
-// Ajusta la URL según tu server.js
 onMounted(async () => {
-  const res = await axios.get('http://localhost:3000/api/items')
-  items.value = res.data
+  try {
+    const res = await axios.get('http://localhost:3000/productos')
+    items.value = res.data
+  } catch (err) {
+    console.error('Error al cargar productos:', err)
+  } finally {
+    loading.value = false
+  }
 })
 
 const categorias = computed(() => [...new Set(items.value.map(i => i.categoria))])
