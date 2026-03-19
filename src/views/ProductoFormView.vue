@@ -100,6 +100,9 @@
                 <button type="button" @click="cancel" class="btn btn-outline-secondary flex-grow-1">
                   Cancelar
                 </button>
+                <button v-if="isEditing" type="button" @click="deleteProduct" class="btn btn-outline-danger flex-grow-1">
+                  Eliminar producto
+                </button>
                 <button type="submit" class="btn btn-custom-primary flex-grow-1" :disabled="saving">
                   <span v-if="saving" class="spinner-border spinner-border-sm me-2"></span>
                   {{ saving ? 'Guardando...' : (isEditing ? 'Actualizar' : 'Crear Producto') }}
@@ -207,6 +210,17 @@ export default {
       }
     }
 
+    const deleteProduct = async () => {
+      if (!confirm('¿Seguro que quieres eliminar este producto? Esta acción no se puede deshacer.')) return
+      try {
+        await axios.delete(`/api/productos/${productId.value}`)
+        alert('Producto eliminado correctamente')
+        router.push('/admin/productos')
+      } catch (err) {
+        error.value = 'Error al eliminar el producto'
+      }
+    }
+
     const cancel = () => {
       router.push('/admin/productos')
     }
@@ -223,7 +237,8 @@ export default {
       categories,
       availableImages,
       handleSubmit,
-      cancel
+      cancel,
+      deleteProduct
     }
   }
 }

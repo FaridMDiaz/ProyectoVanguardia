@@ -48,18 +48,56 @@
         </div>
       </div>
     </div>
-    <div v-else class="row">
-      <div 
-        v-for="product in filteredProducts" 
-        :key="product.id" 
-        class="col-lg-3 col-md-4 col-sm-6"
-      >
-        <ProductCard 
-          :product="product"
-          :admin="true"
-          @delete="handleDelete"
-          @edit="handleEdit"
-        />
+    <div v-else>
+      <div class="card bg-white p-3 mb-4">
+        <div class="d-flex align-items-center justify-content-between mb-2">
+          <div>
+            <h4 class="mb-1">Sección para eliminar productos</h4>
+            <small class="text-muted">Desde aquí puedes eliminar productos rápidamente sin usar la tarjeta.</small>
+          </div>
+        </div>
+        <div class="table-responsive">
+          <table class="table table-striped table-bordered mb-0">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Nombre</th>
+                <th>Categoría</th>
+                <th>Stock</th>
+                <th class="text-center">Acción</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="product in filteredProducts" :key="product.id">
+                <td>{{ product.id }}</td>
+                <td>{{ product.nombre }}</td>
+                <td>{{ product.categoria }}</td>
+                <td>{{ product.stock }}</td>
+                <td class="text-center">
+                  <button
+                    class="btn btn-sm btn-outline-danger"
+                    @click="deleteProduct(product.id)"
+                  >
+                    <i class="bi bi-trash"></i> Eliminar
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="row">
+        <div 
+          v-for="product in filteredProducts" 
+          :key="product.id" 
+          class="col-lg-3 col-md-4 col-sm-6"
+        >
+          <ProductCard 
+            :product="product"
+            :admin="true"
+            @edit="handleEdit"
+          />
+        </div>
       </div>
     </div>
   </div>
@@ -114,7 +152,9 @@ export default {
       )
     }
 
-    const handleDelete = async (productId) => {
+    const deleteProduct = async (productId) => {
+      if (!confirm('¿Estás seguro de eliminar este producto? Esta acción no se puede deshacer.')) return
+
       try {
         await axios.delete(`/api/productos/${productId}`)
         await fetchProducts()
@@ -139,7 +179,7 @@ export default {
       error,
       fetchProducts,
       filterProducts,
-      handleDelete,
+      deleteProduct,
       handleEdit
     }
   }

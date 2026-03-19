@@ -16,37 +16,35 @@
         <p class="text-truncate">{{ product.descripcion || 'Sin descripción' }}</p>
         <small>Pasa el cursor para ver detalles</small>
       </div>
+
       <div class="flip-card-back">
         <div>
           <h4>{{ product.nombre }}</h4>
           <p class="text-muted">{{ product.descripcion || 'Sin descripción disponible' }}</p>
-          
+
           <div class="price">${{ formatPrice(product.precio) }}</div>
-          
+
           <div :class="['stock', stockClass]">
             {{ product.stock }} unidades disponibles
           </div>
-          
+
           <div class="mt-3">
             <small class="text-muted">
-              <i class="bi bi-calendar"></i> 
+              <i class="bi bi-calendar"></i>
               {{ formatDate(product.fecha_creacion) }}
             </small>
           </div>
         </div>
-        
+
         <div class="d-flex justify-content-between align-items-center mt-3">
           <routerLink v-if="admin" :to="`/admin/productos/${product.id}`" class="btn-view">
             <i class="bi bi-eye"></i> Ver detalles
           </routerLink>
           <div v-else class="text-white">Solo lectura cliente</div>
 
-          <div v-if="admin">
-            <button @click="editProduct" class="btn btn-sm btn-outline-primary me-2">
-              <i class="bi bi-pencil"></i>
-            </button>
-            <button @click="confirmDelete" class="btn btn-sm btn-outline-danger">
-              <i class="bi bi-trash"></i>
+          <div v-if="admin" class="d-flex gap-2">
+            <button @click="editProduct" class="btn btn-sm btn-outline-primary">
+              <i class="bi bi-pencil"></i> Editar
             </button>
           </div>
         </div>
@@ -70,7 +68,7 @@ export default {
       default: true
     }
   },
-  emits: ['delete', 'edit'],
+  emits: ['edit'],
   setup(props, { emit }) {
     const gradientColor = computed(() => {
       const gradients = {
@@ -102,12 +100,6 @@ export default {
       })
     }
 
-    const confirmDelete = () => {
-      if (confirm('¿Estás seguro de eliminar este producto?')) {
-        emit('delete', props.product.id)
-      }
-    }
-
     const editProduct = () => {
       emit('edit', props.product.id)
     }
@@ -117,7 +109,6 @@ export default {
       stockClass,
       formatPrice,
       formatDate,
-      confirmDelete,
       editProduct
     }
   }

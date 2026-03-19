@@ -4,12 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "backend": "node server.js",
-    "dev": "vite",
-    "dev:all": "concurrently \"npm run backend\" \"npm run dev\"",
-    "build": "vite build",
-    "preview": "vite preview",
-    "start": "vite"
+  "backend": "node server.js",
+  "frontend": "vite",
+  "dev": "concurrently \"npm run backend\" \"npm run frontend\"",
+  "build": "vite build",
+  "preview": "vite preview"
   },
   "repository": {
     "type": "git",
@@ -26,6 +25,7 @@
   "dependencies": {
     "@nuxt/image": "^2.0.0",
     "@popperjs/core": "^2.11.8",
+    "@sidebase/nuxt-auth": "^1.2.0",
     "axios": "^1.13.6",
     "bootstrap": "^5.3.8",
     "bootstrap-icons": "^1.13.1",
