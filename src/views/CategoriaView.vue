@@ -7,7 +7,7 @@
           Productos disponibles en {{ categoryLabel }}
         </p>
         <div class="fade-in-up" style="animation-delay: 0.4s">
-          <router-link to="/" class="btn btn-custom-primary me-2">Ver todos</router-link>
+          <router-link to="/cliente" class="btn btn-custom-primary me-2">Ver todos</router-link>
           <router-link to="/admin" class="btn btn-custom-outline">Ir a panel privado</router-link>
         </div>
       </div>
@@ -20,21 +20,29 @@
           <p class="text-muted">Solo lectura para usuario</p>
         </div>
       </div>
+
       <div v-if="loading" class="text-center py-5">
         <div class="spinner-custom mx-auto mb-3"></div>
         <p class="text-white">Cargando productos...</p>
       </div>
+
       <div v-else-if="error" class="alert alert-danger text-center">
         {{ error }}
       </div>
+
       <div v-else-if="filteredProducts.length === 0" class="text-center py-5">
         <div class="card bg-white p-5">
           <h3>No hay productos en esta categoría</h3>
           <p class="text-muted">Prueba con otra categoría</p>
         </div>
       </div>
+
       <div v-else class="row">
-        <div v-for="product in filteredProducts" :key="product.id" class="col-lg-3 col-md-4 col-sm-6">
+        <div
+          v-for="product in filteredProducts"
+          :key="product.id"
+          class="col-lg-3 col-md-4 col-sm-6"
+        >
           <ProductCard :product="product" :admin="false" />
         </div>
       </div>
@@ -49,16 +57,17 @@ import ProductCard from '../components/ProductCard.vue'
 
 const categoryMap = {
   'area-bebes': 'Area bebés',
-  cuadros: 'Cuadros',
-  espejos: 'Espejos',
-  mesas: 'Mesas',
-  comedores: 'Comedores',
-  adornos: 'Adornos',
+  'cuadros': 'Cuadros',
+  'espejos': 'Espejos',
+  'mesas': 'Mesas',
+  'comedores': 'Comedores',
+  'adornos': 'Adornos',
   'set-de-cuartos': 'Set de cuartos',
   'libros-para-adulto': 'Libros para adulto',
   'libros-escolares': 'libros escolares',
   'juegos-de-sala': 'Juegos de sala',
-  sofas: 'Sofás'
+  'sofas': 'Sofás',
+  'muebles': 'Muebles'
 }
 
 export default {
@@ -82,16 +91,17 @@ export default {
       loading.value = true
       error.value = null
       try {
-        const response = await axios.get('/api/productos')
+        const response = await axios.get('http://localhost:3000/productos')
         products.value = response.data
         const categoryName = categoryMap[props.slug]
         if (!categoryName) {
           filteredProducts.value = []
         } else {
-          filteredProducts.value = response.data.filter((p) => p.categoria === categoryName)
+          filteredProducts.value = response.data.filter(p => p.categoria === categoryName)
         }
       } catch (err) {
         error.value = 'Error al cargar productos de la categoría.'
+        console.error('Error:', err)
       } finally {
         loading.value = false
       }

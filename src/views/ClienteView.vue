@@ -7,10 +7,14 @@
     />
 
     <div class="container mt-5 pt-5">
-
       <div v-if="loading" class="text-center py-5">
         <div class="spinner-custom mx-auto mb-3"></div>
         <p class="text-white">Cargando productos...</p>
+      </div>
+
+      <div v-else-if="error" class="alert alert-danger text-center">
+        {{ error }}
+        <button @click="cargarProductos" class="btn btn-danger ms-3">Reintentar</button>
       </div>
 
       <div v-else-if="itemsFiltrados.length === 0" class="text-center py-5">
@@ -26,13 +30,9 @@
           :key="item.id"
           class="col-lg-3 col-md-4 col-sm-6"
         >
-          <ProductCard
-            :product="item"
-            :admin="false"
-          />
+          <ProductCard :product="item" :admin="false" />
         </div>
       </div>
-
     </div>
   </div>
 </template>
@@ -46,17 +46,23 @@ import ProductCard from '../components/ProductCard.vue'
 const items = ref([])
 const categoriaActiva = ref(null)
 const loading = ref(true)
+const error = ref(null)
 
-onMounted(async () => {
+const cargarProductos = async () => {
+  loading.value = true
+  error.value = null
   try {
     const res = await axios.get('http://localhost:3000/productos')
     items.value = res.data
   } catch (err) {
     console.error('Error al cargar productos:', err)
+    error.value = 'Error al cargar los productos'
   } finally {
     loading.value = false
   }
-})
+}
+
+onMounted(cargarProductos)
 
 const categorias = computed(() => [...new Set(items.value.map(i => i.categoria))])
 
