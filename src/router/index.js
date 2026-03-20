@@ -5,6 +5,7 @@ import HomeView from '../views/HomeView.vue'
 import ProductosView from '../views/ProductView.vue'
 import ProductoFormView from '../views/ProductoFormView.vue'
 import CategoriaView from '../views/CategoriaView.vue'
+import LoginView from '../views/LoginView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -15,6 +16,11 @@ const router = createRouter({
       component: SelectView
     },
     {
+      path: '/login',
+      name: 'login',
+      component: LoginView
+    },
+    {
       path: '/cliente',
       name: 'public-client',
       component: ClienteView
@@ -22,22 +28,26 @@ const router = createRouter({
     {
       path: '/admin',
       name: 'admin-home',
-      component: HomeView
+      component: HomeView,
+      meta: { requiresAuth: true }
     },
     {
       path: '/admin/productos',
       name: 'admin-productos',
-      component: ProductosView
+      component: ProductosView,
+      meta: { requiresAuth: true }
     },
     {
       path: '/admin/productos/nuevo',
       name: 'admin-nuevo-producto',
-      component: ProductoFormView
+      component: ProductoFormView,
+      meta: { requiresAuth: true }
     },
     {
       path: '/admin/productos/:id',
       name: 'admin-editar-producto',
-      component: ProductoFormView
+      component: ProductoFormView,
+      meta: { requiresAuth: true }
     },
     {
       path: '/categoria/:slug',
@@ -46,6 +56,15 @@ const router = createRouter({
       props: true
     }
   ]
+})
+
+// Protección de rutas
+router.beforeEach((to, from, next) => {
+  if (to.meta.requiresAuth && !localStorage.getItem('admin_user')) {
+    next('/login')
+  } else {
+    next()
+  }
 })
 
 export default router

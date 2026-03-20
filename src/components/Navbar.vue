@@ -51,6 +51,14 @@
                 <i class="bi bi-shop"></i> Volver al público
               </router-link>
             </li>
+            <li class="nav-item" v-if="esAdmin && adminUser">
+              <span class="nav-link text-muted small me-2">{{ adminUser }}</span>
+            </li>
+            <li class="nav-item" v-if="esAdmin && adminUser">
+              <a class="nav-link" href="#" @click.prevent="cerrarSesion">
+                <i class="bi bi-box-arrow-right"></i> Cerrar sesión
+              </a>
+            </li>
           </template>
 
         </ul>
@@ -61,7 +69,7 @@
 
 <script>
 import { computed } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 
 const categorias = [
   { slug: 'area-bebes',         nombre: 'Area bebés' },
@@ -82,16 +90,23 @@ export default {
   name: 'Navbar',
   setup() {
     const route = useRoute()
+    const router = useRouter()
 
     const esVistaCliente = computed(() =>
       route.path === '/cliente' ||
       route.path.startsWith('/categoria/')
     )
 
-    return {
-      categorias,
-      esVistaCliente
+    const esAdmin = computed(() => route.path.startsWith('/admin'))
+
+    const adminUser = computed(() => localStorage.getItem('admin_user'))
+
+    const cerrarSesion = () => {
+      localStorage.removeItem('admin_user')
+      router.push('/login')
     }
+
+    return { categorias, esVistaCliente, esAdmin, adminUser, cerrarSesion }
   }
 }
 </script>
